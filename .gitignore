@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+.env
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.sqlite3
+*/migrations/**
+# macOS
+.AppleDouble
+.LSOverride
+# Dependency folders
+node_modules/
+
+# Uvicorn/Gunicorn
+gunicorn.log
+uvicorn.log
