@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import os
 import uuid
-from app.schemas.attachment import AttachmentRead, AttachmentCreate
+from app.schemas.attachment import AttachmentRead, AttachmentCreate, AttachmentUpdate
 from app.crud import attachment as crud_attachment
 from app.core.security import get_current_active_user, require_role
 from app.db.session import get_db
@@ -64,7 +64,7 @@ def get_attachment(
 @router.put("/{attachment_id}", response_model=AttachmentRead)
 def update_attachment(
     attachment_id: int,
-    update_data: dict,
+    update_data: AttachmentUpdate,
     db: Session = Depends(get_db),
     current_user=Depends(require_role(["admin", "manager"])),
 ):

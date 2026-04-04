@@ -1,3 +1,5 @@
+import logging
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -7,7 +9,8 @@ from sqlalchemy.orm import Session
 from app.models.user import User, UserRole
 from app.crud.user import get_user_by_email, verify_password
 from app.db.session import get_db
-import os
+
+logger = logging.getLogger(__name__)
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
@@ -40,9 +43,11 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
         if user_id is None:
             raise credentials_exception
     except JWTError:
+        logger.warning("Invalid JWT token received")
         raise credentials_exception
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
+        logger.warning("JWT token references non-existent user id=%s", user_id)
         raise credentials_exception
     return user
 
@@ -54,6 +59,7 @@ def get_current_active_user(current_user: User = Depends(get_current_user)) -> U
 def require_role(required_roles: list):
     def role_checker(current_user: User = Depends(get_current_active_user)):
         if current_user.role not in required_roles:
+            logger.warning("User %s (role=%s) denied access, required: %s", current_user.email, current_user.role, required_roles)
             raise HTTPException(status_code=403, detail="Insufficient permissions")
         return current_user
     return role_checker

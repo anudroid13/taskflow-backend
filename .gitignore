@@ -9,6 +9,8 @@ __pycache__/
 .vscode/
 *.log
 *.sqlite3
+test.db
+uploads/
 */migrations/**
 # macOS
 .AppleDouble
