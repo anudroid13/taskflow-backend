@@ -21,6 +21,10 @@ class UserSignup(BaseModel):
     password: str
     full_name: Optional[str] = None
 
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
 class UserRead(UserBase):
     id: int
     class Config:

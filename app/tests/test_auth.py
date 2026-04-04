@@ -33,8 +33,8 @@ def test_login_success(client):
         "password": "password123",
         "full_name": "Login User",
     })
-    response = client.post("/auth/login", data={
-        "username": "login@test.com",
+    response = client.post("/auth/login", json={
+        "email": "login@test.com",
         "password": "password123",
     })
     assert response.status_code == 200
@@ -49,16 +49,16 @@ def test_login_wrong_password(client):
         "password": "password123",
         "full_name": "Wrong User",
     })
-    response = client.post("/auth/login", data={
-        "username": "wrong@test.com",
+    response = client.post("/auth/login", json={
+        "email": "wrong@test.com",
         "password": "badpassword",
     })
     assert response.status_code == 401
 
 
 def test_login_nonexistent_user(client):
-    response = client.post("/auth/login", data={
-        "username": "nonexistent@test.com",
+    response = client.post("/auth/login", json={
+        "email": "nonexistent@test.com",
         "password": "password123",
     })
     assert response.status_code == 401
