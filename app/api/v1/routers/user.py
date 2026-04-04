@@ -20,10 +20,12 @@ def create_user(
 def list_users(
     skip: int = 0,
     limit: int = 100,
+    role: str = None,
+    email: str = None,
     db: Session = Depends(get_db),
     current_user=Depends(require_role(["admin", "manager"])),
 ):
-    return crud_user.get_users(db, skip=skip, limit=limit)
+    return crud_user.get_users(db, skip=skip, limit=limit, role=role, email=email)
 
 @router.get("/{user_id}", response_model=UserRead)
 def get_user(

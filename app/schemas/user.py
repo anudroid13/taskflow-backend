@@ -16,6 +16,11 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+class UserSignup(BaseModel):
+    email: EmailStr
+    password: str
+    full_name: Optional[str] = None
+
 class UserRead(UserBase):
     id: int
     class Config:

@@ -33,3 +33,7 @@ class TaskUpdate(BaseModel):
     description: Optional[str] = None
     status: Optional[TaskStatus] = None
     priority: Optional[TaskPriority] = None
+    owner_id: Optional[int] = None
+
+class TaskAssign(BaseModel):
+    owner_id: int
