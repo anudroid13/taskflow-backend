@@ -3,12 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from app.schemas.task import TaskRead, TaskCreate, TaskUpdate
 from app.crud import task as crud_task
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+from app.db.session import get_db
 
 from app.core.security import get_current_active_user, require_role
 router = APIRouter(prefix="/tasks", tags=["tasks"])

@@ -8,7 +8,6 @@ from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def get_password_hash(password: str) -> str:
-    print("Password type:", type(password), "Value:", password, "Length:", len(password))
     return pwd_context.hash(password)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -24,7 +23,6 @@ def get_users(db: Session, skip: int = 0, limit: int = 100) -> List[User]:
     return db.query(User).offset(skip).limit(limit).all()
 
 def create_user(db: Session, user: UserCreate) -> User:
-    print("Password:", user.password, "Length:", len(user.password))
     db_user = User(
         email=user.email,
         hashed_password=get_password_hash(user.password),

@@ -4,19 +4,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.schemas.user import UserCreate, UserRead
 from app.crud import user as crud_user
 from app.core import security
-from app.db.session import engine
-from sqlalchemy.orm import sessionmaker
+from app.db.session import get_db
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @router.post("/signup", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def signup(user_in: UserCreate, db: Session = Depends(get_db)):

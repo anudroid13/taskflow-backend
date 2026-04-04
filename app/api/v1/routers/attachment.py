@@ -4,17 +4,7 @@ from typing import List
 from app.schemas.attachment import AttachmentRead, AttachmentCreate
 from app.crud import attachment as crud_attachment
 from app.core.security import get_current_active_user, require_role
-from app.db.session import engine
-from sqlalchemy.orm import sessionmaker
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+from app.db.session import get_db
 
 router = APIRouter(prefix="/attachments", tags=["attachments"])
 

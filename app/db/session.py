@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
+from sqlalchemy.orm import sessionmaker
 
 # Load environment variables from .env file
 load_dotenv()
@@ -15,3 +16,12 @@ if not DATABASE_URL:
 
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
