@@ -1,11 +1,6 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 from typing import Optional
-from enum import Enum
-
-class UserRole(str, Enum):
-    admin = "admin"
-    manager = "manager"
-    employee = "employee"
+from app.models.user import UserRole
 
 def _validate_password(v: str) -> str:
     if len(v) < 8:

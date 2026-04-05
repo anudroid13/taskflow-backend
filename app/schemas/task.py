@@ -1,17 +1,6 @@
 from pydantic import BaseModel, ConfigDict, field_validator
 from typing import Optional
-from enum import Enum
-
-class TaskStatus(str, Enum):
-    todo = "todo"
-    in_progress = "in_progress"
-    done = "done"
-    overdue = "overdue"
-
-class TaskPriority(str, Enum):
-    low = "low"
-    medium = "medium"
-    high = "high"
+from app.models.task import TaskStatus, TaskPriority
 
 class TaskBase(BaseModel):
     title: str
