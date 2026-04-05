@@ -25,7 +25,7 @@ def get_completion_rate(db: Session) -> dict:
     total = db.query(func.count(Task.id)).scalar()
     done = db.query(func.count(Task.id)).filter(Task.status == TaskStatus.done).scalar()
     rate = round((done / total) * 100, 2) if total > 0 else 0.0
-    return {"total": total, "done": done, "completion_rate": rate}
+    return {"total_tasks": total, "completed_tasks": done, "completion_percentage": rate}
 
 
 def get_tasks_by_priority(db: Session) -> dict:
@@ -64,6 +64,5 @@ def get_date_range_metrics(
         "start_date": start_date.isoformat() if start_date else None,
         "end_date": end_date.isoformat() if end_date else None,
         "total": total,
-        "done": done,
-        "overdue": overdue,
+        "completed": done,
     }

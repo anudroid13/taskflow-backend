@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, field_validator
 from typing import Optional
 from app.models.task import TaskStatus, TaskPriority
@@ -21,6 +22,8 @@ class TaskCreate(TaskBase):
 class TaskRead(TaskBase):
     id: int
     owner_id: int
+    created_at: datetime
+    updated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 class TaskUpdate(BaseModel):
