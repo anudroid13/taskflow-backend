@@ -4,6 +4,7 @@ from typing import List, Optional
 from datetime import datetime
 from app.schemas.task import TaskRead, TaskCreate, TaskUpdate, TaskAssign
 from app.crud import task as crud_task
+from app.crud import user as crud_user
 from app.db.session import get_db
 
 from app.core.security import get_current_active_user, require_role
@@ -15,6 +16,12 @@ def create_task(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_active_user),
 ):
+    # Employees can only create tasks owned by themselves
+    if current_user.role.value == "employee" and task_in.owner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Employees can only create tasks for themselves")
+    # Verify the target owner exists
+    if not crud_user.get_user(db, task_in.owner_id):
+        raise HTTPException(status_code=404, detail="Target owner not found")
     return crud_task.create_task(db, task_in)
 
 @router.get("/", response_model=List[TaskRead])
@@ -72,6 +79,8 @@ def assign_task(
     db_task = crud_task.get_task(db, task_id)
     if not db_task:
         raise HTTPException(status_code=404, detail="Task not found")
+    if not crud_user.get_user(db, assignment.owner_id):
+        raise HTTPException(status_code=404, detail="Target owner not found")
     return crud_task.assign_task(db, db_task, assignment.owner_id)
 
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)

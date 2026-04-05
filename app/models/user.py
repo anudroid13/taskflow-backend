@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum
 from sqlalchemy.orm import relationship
 from app.db.base import Base
@@ -8,6 +9,9 @@ class UserRole(str, enum.Enum):
     manager = "manager"
     employee = "employee"
 
+def _utcnow():
+    return datetime.now(timezone.utc)
+
 class User(Base):
     __tablename__ = "users"
 
@@ -17,9 +21,8 @@ class User(Base):
     full_name = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     role = Column(Enum(UserRole), default=UserRole.employee, nullable=False)
-    from datetime import datetime
-    created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime(timezone=True), nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=_utcnow)
+    updated_at = Column(DateTime(timezone=True), nullable=False, default=_utcnow, onupdate=_utcnow)
 
-    tasks = relationship("Task", back_populates="owner")
-    attachments = relationship("Attachment", back_populates="uploader")
+    tasks = relationship("Task", back_populates="owner", cascade="all, delete-orphan")
+    attachments = relationship("Attachment", back_populates="uploader", cascade="all, delete-orphan")

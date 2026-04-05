@@ -83,13 +83,15 @@ taskflow-backend/
 5. Start app: `uvicorn app.main:app --reload`
 
 ## API reference (high-level)
-- POST `/api/v1/signup`
-- POST `/api/v1/login`
-- GET `/api/v1/users`
-- POST `/api/v1/tasks`
-- GET `/api/v1/tasks`
-- PUT `/api/v1/tasks/{id}`
-- DELETE `/api/v1/tasks/{id}`
+- POST `/auth/signup`
+- POST `/auth/login`
+- GET `/users/`
+- POST `/tasks/`
+- GET `/tasks/`
+- PUT `/tasks/{id}`
+- DELETE `/tasks/{id}`
+- GET `/dashboard/summary`
+- POST `/attachments/`
 
 ## Testing
 - `pytest -q`

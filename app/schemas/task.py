@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, field_validator
 from typing import Optional
 from enum import Enum
 
@@ -22,11 +22,17 @@ class TaskBase(BaseModel):
 class TaskCreate(TaskBase):
     owner_id: int
 
+    @field_validator("status")
+    @classmethod
+    def block_overdue_on_create(cls, v):
+        if v == TaskStatus.overdue:
+            raise ValueError("Cannot create a task with 'overdue' status")
+        return v
+
 class TaskRead(TaskBase):
     id: int
     owner_id: int
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TaskUpdate(BaseModel):
     title: Optional[str] = None

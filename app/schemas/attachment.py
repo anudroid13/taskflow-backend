@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 class AttachmentBase(BaseModel):
@@ -9,13 +9,16 @@ class AttachmentCreate(AttachmentBase):
     uploader_id: int
     task_id: int
 
+class AttachmentCreateRequest(BaseModel):
+    filename: str
+    url: str
+    task_id: int
+
 class AttachmentUpdate(BaseModel):
     filename: Optional[str] = None
-    url: Optional[str] = None
 
 class AttachmentRead(AttachmentBase):
     id: int
     uploader_id: int
     task_id: int
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

@@ -1,6 +1,7 @@
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 # Import all model modules to register them with SQLAlchemy
 from app.models import user, task, attachment

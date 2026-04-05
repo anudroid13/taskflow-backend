@@ -16,7 +16,6 @@ def sample_attachment(client, admin_headers, admin_user, sample_task):
     response = client.post("/attachments/", json={
         "filename": "test.txt",
         "url": "/uploads/test.txt",
-        "uploader_id": admin_user["id"],
         "task_id": sample_task["id"],
     }, headers=admin_headers)
     return response.json()
@@ -28,20 +27,19 @@ def test_create_attachment(client, admin_headers, admin_user, sample_task):
     response = client.post("/attachments/", json={
         "filename": "doc.pdf",
         "url": "/uploads/doc.pdf",
-        "uploader_id": admin_user["id"],
         "task_id": sample_task["id"],
     }, headers=admin_headers)
     assert response.status_code == 201
     data = response.json()
     assert data["filename"] == "doc.pdf"
     assert data["task_id"] == sample_task["id"]
+    assert data["uploader_id"] == admin_user["id"]
 
 
 def test_create_attachment_unauthenticated(client):
     response = client.post("/attachments/", json={
         "filename": "fail.txt",
         "url": "/uploads/fail.txt",
-        "uploader_id": 1,
         "task_id": 1,
     })
     assert response.status_code == 401

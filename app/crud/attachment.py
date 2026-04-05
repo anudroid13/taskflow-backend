@@ -3,7 +3,7 @@ from app.models.attachment import Attachment
 from app.schemas.attachment import AttachmentCreate, AttachmentUpdate
 
 def create_attachment(db: Session, attachment_in: AttachmentCreate) -> Attachment:
-    attachment = Attachment(**attachment_in.dict())
+    attachment = Attachment(**attachment_in.model_dump())
     db.add(attachment)
     db.commit()
     db.refresh(attachment)
