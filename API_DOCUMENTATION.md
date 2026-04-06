@@ -4,7 +4,12 @@
 This document serves as a complete reference for the RESTful API provided by the TaskFlow backend.
 
 ## Base URL
-`https://api.taskflow-backend.com`
+`{BASE_URL}`
+
+Replace `{BASE_URL}` with the appropriate URL for your environment:
+- **Development**: `http://localhost:8000`
+- **Staging**: `https://staging-api.taskflow-backend.com`
+- **Production**: `https://api.taskflow-backend.com`
 
 ## Authentication
 Authentication is performed using Bearer tokens. Include the token in the `Authorization` header of your requests:
@@ -25,13 +30,13 @@ Authorization: Bearer [Your-Token]
 - **Example**:
     - cURL:
     ```bash
-    curl -X GET "https://api.taskflow-backend.com/tasks" -H "Authorization: Bearer [Your-Token]"
+    curl -X GET "{BASE_URL}/tasks" -H "Authorization: Bearer [Your-Token]"
     ```
     - Python:
     ```python
     import requests
     headers = {"Authorization": "Bearer [Your-Token]"}
-    response = requests.get("https://api.taskflow-backend.com/tasks", headers=headers)
+    response = requests.get("{BASE_URL}/tasks", headers=headers)
     ```
 
 ### 2. **Get Task by ID**
@@ -45,13 +50,13 @@ Authorization: Bearer [Your-Token]
 - **Example**:
     - cURL:
     ```bash
-    curl -X GET "https://api.taskflow-backend.com/tasks/1" -H "Authorization: Bearer [Your-Token]"
+    curl -X GET "{BASE_URL}/tasks/1" -H "Authorization: Bearer [Your-Token]"
     ```
     - Python:
     ```python
     import requests
     headers = {"Authorization": "Bearer [Your-Token]"}
-    response = requests.get("https://api.taskflow-backend.com/tasks/1", headers=headers)
+    response = requests.get("{BASE_URL}/tasks/1", headers=headers)
     ```
 
 ### ...
@@ -67,13 +72,13 @@ Authorization: Bearer [Your-Token]
 - **Example**:
     - cURL:
     ```bash
-    curl -X DELETE "https://api.taskflow-backend.com/tasks/1" -H "Authorization: Bearer [Your-Token]"
+    curl -X DELETE "{BASE_URL}/tasks/1" -H "Authorization: Bearer [Your-Token]"
     ```
     - Python:
     ```python
     import requests
     headers = {"Authorization": "Bearer [Your-Token]"}
-    response = requests.delete("https://api.taskflow-backend.com/tasks/1", headers=headers)
+    response = requests.delete("{BASE_URL}/tasks/1", headers=headers)
     ```
 
 ## Role Permissions Matrix
@@ -95,6 +100,7 @@ Authorization: Bearer [Your-Token]
 
 ## Change Log
 - **2026-04-06**: Initial documentation created.
+- **2026-04-06**: Updated base URL to use environment-configurable variable.
 
 ---
 
